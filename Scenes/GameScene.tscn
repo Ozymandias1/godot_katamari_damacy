@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bmbgmx6hbddg3"]
+[gd_scene load_steps=13 format=3 uid="uid://bmbgmx6hbddg3"]
 
 [ext_resource type="Material" uid="uid://ck16v7kivvfq6" path="res://Materials/GrayGridMaterial.tres" id="1_k2f2a"]
 [ext_resource type="Material" uid="uid://pyue2l6n7crf" path="res://Materials/OrangeMaterial.tres" id="2_d1jr8"]
+[ext_resource type="Script" path="res://Scripts/CameraController.gd" id="2_fkkta"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sriop"]
 size = Vector3(100, 1, 100)
@@ -90,9 +91,6 @@ environment = SubResource("Environment_aqqi7")
 transform = Transform3D(0.610175, -0.518708, 0.598857, 0, 0.755877, 0.654713, -0.792267, -0.399489, 0.461217, 3.55975, 6.85944, 2.33715)
 shadow_enabled = true
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 5)
-
 [node name="Player" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
@@ -102,3 +100,12 @@ mesh = SubResource("SphereMesh_reiq4")
 
 [node name="PlayerCollision" type="CollisionShape3D" parent="Player"]
 shape = SubResource("SphereShape3D_s8exs")
+
+[node name="CameraPivot" type="Node3D" parent="." node_paths=PackedStringArray("player", "camera_node")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+script = ExtResource("2_fkkta")
+player = NodePath("../Player")
+camera_node = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
