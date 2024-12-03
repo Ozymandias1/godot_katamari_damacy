@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bmbgmx6hbddg3"]
+[gd_scene load_steps=18 format=3 uid="uid://bmbgmx6hbddg3"]
 
 [ext_resource type="Material" uid="uid://ck16v7kivvfq6" path="res://Materials/GrayGridMaterial.tres" id="1_k2f2a"]
 [ext_resource type="Material" uid="uid://pyue2l6n7crf" path="res://Materials/OrangeMaterial.tres" id="2_d1jr8"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cw4p6bc15gkbx" path="res://Scenes/pickup_item_type_0.tscn" id="5_l3k1m"]
 [ext_resource type="PackedScene" uid="uid://bgrvqcbv08e5a" path="res://Scenes/pickup_item_type_1.tscn" id="6_e6fc3"]
 [ext_resource type="PackedScene" uid="uid://wvxt37pj21h5" path="res://Scenes/pickup_item_type_2.tscn" id="7_yucsb"]
+[ext_resource type="Script" path="res://Scripts/ItemSpawner.gd" id="8_bgew3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sriop"]
 size = Vector3(100, 1, 100)
@@ -120,22 +121,53 @@ camera_node = NodePath("Camera3D")
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 
-[node name="PickupItemType0" parent="." instance=ExtResource("5_l3k1m")]
+[node name="Items" type="Node3D" parent="."]
+
+[node name="PickupItemType0" parent="Items" instance=ExtResource("5_l3k1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.637825, 1.5, -3.54902)
 
-[node name="PickupItemType1" parent="." instance=ExtResource("5_l3k1m")]
+[node name="PickupItemType1" parent="Items" instance=ExtResource("5_l3k1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -4)
 
-[node name="PickupItemType2" parent="." instance=ExtResource("6_e6fc3")]
+[node name="PickupItemType2" parent="Items" instance=ExtResource("6_e6fc3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.60324, 1.88757, -4.43168)
 
-[node name="PickupItemType3" parent="." instance=ExtResource("6_e6fc3")]
+[node name="PickupItemType3" parent="Items" instance=ExtResource("6_e6fc3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36224, 1.81503, -6.80579)
 
-[node name="PickupItemType4" parent="." instance=ExtResource("7_yucsb")]
+[node name="PickupItemType4" parent="Items" instance=ExtResource("7_yucsb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7805, 1.89144, -4.65721)
 
-[node name="PickupItemType5" parent="." instance=ExtResource("7_yucsb")]
+[node name="PickupItemType5" parent="Items" instance=ExtResource("7_yucsb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6646, 1.73708, -7.29201)
 
+[node name="ItemSpawner" type="Node" parent="." node_paths=PackedStringArray("item_parent")]
+script = ExtResource("8_bgew3")
+item_parent = NodePath("../Items")
+item_templates = Array[PackedScene]([ExtResource("5_l3k1m"), ExtResource("6_e6fc3"), ExtResource("7_yucsb")])
+
+[node name="ItemSpawnTimer" type="Timer" parent="ItemSpawner"]
+autostart = true
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelGameplayTimer" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.5
+offset_right = 20.5
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 50
+text = "00:00"
+
 [connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
+[connection signal="timeout" from="ItemSpawner/ItemSpawnTimer" to="ItemSpawner" method="_spawn_pickup_item"]

@@ -47,8 +47,8 @@ func _on_body_entered(other_body: Node) -> void:
 		if is_pickup_item:
 			var increase_size: float = other_body.increase_size
 			other_body.attach_to_player(attachments)
-			#self.call_deferred("_increase_player_scale", increase_size)
 			_increase_player_scale(increase_size)
 
+## increase player's collision shape size
 func _increase_player_scale(size: float) -> void:
 	player_collision.shape.radius += size
