@@ -12,6 +12,10 @@ var player_input: Vector2 = Vector2.ZERO
 var is_sizeup_enabled: bool = true
 var pickup_count: int = 0
 
+## startup
+func _ready() -> void:
+	player_collision.shape.radius = 0.5
+
 ## process
 func _process(_delta: float) -> void:
 	# To handle physical movement, store player input values in _process,
