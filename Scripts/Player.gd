@@ -5,8 +5,12 @@ extends RigidBody3D
 
 @onready var attachments: Node3D = $Attachments
 @onready var player_collision: CollisionShape3D = $PlayerCollision
+@onready var label_item_count: Label = $"../UI/Information/LabelItemCount"
+@onready var label_size: Label = $"../UI/Information/LabelSize"
 
 var player_input: Vector2 = Vector2.ZERO
+var is_sizeup_enabled: bool = true
+var pickup_count: int = 0
 
 ## process
 func _process(_delta: float) -> void:
@@ -42,7 +46,7 @@ func _get_camera_right() -> Vector3:
 
 ## when collision detected
 func _on_body_entered(other_body: Node) -> void:
-	if other_body.has_meta("is_pickup_item"):
+	if other_body.has_meta("is_pickup_item") and is_sizeup_enabled:
 		var is_pickup_item: bool = other_body.get_meta("is_pickup_item")
 		if is_pickup_item:
 			var increase_size: float = other_body.increase_size
@@ -52,3 +56,8 @@ func _on_body_entered(other_body: Node) -> void:
 ## increase player's collision shape size
 func _increase_player_scale(size: float) -> void:
 	player_collision.shape.radius += size
+	pickup_count += 1
+	
+	# update information text
+	label_item_count.text = "Pickup Item Count: %d" % pickup_count
+	label_size.text = "Size: %.3fm" % player_collision.shape.radius
