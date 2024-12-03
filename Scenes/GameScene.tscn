@@ -1,10 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://bmbgmx6hbddg3"]
+[gd_scene load_steps=17 format=3 uid="uid://bmbgmx6hbddg3"]
 
 [ext_resource type="Material" uid="uid://ck16v7kivvfq6" path="res://Materials/GrayGridMaterial.tres" id="1_k2f2a"]
 [ext_resource type="Material" uid="uid://pyue2l6n7crf" path="res://Materials/OrangeMaterial.tres" id="2_d1jr8"]
 [ext_resource type="Script" path="res://Scripts/CameraController.gd" id="2_fkkta"]
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="2_i461g"]
 [ext_resource type="PackedScene" uid="uid://cw4p6bc15gkbx" path="res://Scenes/pickup_item_type_0.tscn" id="5_l3k1m"]
+[ext_resource type="PackedScene" uid="uid://bgrvqcbv08e5a" path="res://Scenes/pickup_item_type_1.tscn" id="6_e6fc3"]
+[ext_resource type="PackedScene" uid="uid://wvxt37pj21h5" path="res://Scenes/pickup_item_type_2.tscn" id="7_yucsb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sriop"]
 size = Vector3(100, 1, 100)
@@ -123,5 +125,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.637825, 1.5, -3.54902)
 
 [node name="PickupItemType1" parent="." instance=ExtResource("5_l3k1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -4)
+
+[node name="PickupItemType2" parent="." instance=ExtResource("6_e6fc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.60324, 1.88757, -4.43168)
+
+[node name="PickupItemType3" parent="." instance=ExtResource("6_e6fc3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.36224, 1.81503, -6.80579)
+
+[node name="PickupItemType4" parent="." instance=ExtResource("7_yucsb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7805, 1.89144, -4.65721)
+
+[node name="PickupItemType5" parent="." instance=ExtResource("7_yucsb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6646, 1.73708, -7.29201)
 
 [connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
