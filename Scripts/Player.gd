@@ -3,10 +3,13 @@ extends RigidBody3D
 @export var camera_node: Camera3D
 @export var move_force: float = 200.0
 
+@onready var attachments: Node3D = $Attachments
+@onready var player_collision: CollisionShape3D = $PlayerCollision
+
 var player_input: Vector2 = Vector2.ZERO
 
 ## process
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# To handle physical movement, store player input values in _process,
 	# and perform the actual processing in _physics_process.
 	player_input.x = Input.get_axis("Left", "Right")
@@ -36,3 +39,16 @@ func _get_projected_camera_forward() -> Vector3:
 ## get the right vector of the camera
 func _get_camera_right() -> Vector3:
 	return camera_node.global_basis.x
+
+## when collision detected
+func _on_body_entered(other_body: Node) -> void:
+	if other_body.has_meta("is_pickup_item"):
+		var is_pickup_item: bool = other_body.get_meta("is_pickup_item")
+		if is_pickup_item:
+			var increase_size: float = other_body.increase_size
+			other_body.attach_to_player(attachments)
+			#self.call_deferred("_increase_player_scale", increase_size)
+			_increase_player_scale(increase_size)
+
+func _increase_player_scale(size: float) -> void:
+	player_collision.shape.radius += size

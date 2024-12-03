@@ -7,7 +7,7 @@ extends Node3D
 @export var rotate_speed: float = 0.001
 
 ## process
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Set the camera pivot position to the player's position.
 	self.global_position = player.global_position
 

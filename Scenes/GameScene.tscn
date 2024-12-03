@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bmbgmx6hbddg3"]
+[gd_scene load_steps=15 format=3 uid="uid://bmbgmx6hbddg3"]
 
 [ext_resource type="Material" uid="uid://ck16v7kivvfq6" path="res://Materials/GrayGridMaterial.tres" id="1_k2f2a"]
 [ext_resource type="Material" uid="uid://pyue2l6n7crf" path="res://Materials/OrangeMaterial.tres" id="2_d1jr8"]
 [ext_resource type="Script" path="res://Scripts/CameraController.gd" id="2_fkkta"]
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="2_i461g"]
+[ext_resource type="PackedScene" uid="uid://cw4p6bc15gkbx" path="res://Scenes/pickup_item_type_0.tscn" id="5_l3k1m"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sriop"]
 size = Vector3(100, 1, 100)
@@ -94,6 +95,8 @@ shadow_enabled = true
 
 [node name="Player" type="RigidBody3D" parent="." node_paths=PackedStringArray("camera_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+contact_monitor = true
+max_contacts_reported = 1
 script = ExtResource("2_i461g")
 camera_node = NodePath("../CameraPivot/Camera3D")
 
@@ -104,6 +107,8 @@ mesh = SubResource("SphereMesh_reiq4")
 [node name="PlayerCollision" type="CollisionShape3D" parent="Player"]
 shape = SubResource("SphereShape3D_s8exs")
 
+[node name="Attachments" type="Node3D" parent="Player"]
+
 [node name="CameraPivot" type="Node3D" parent="." node_paths=PackedStringArray("player", "camera_node")]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
 script = ExtResource("2_fkkta")
@@ -112,3 +117,11 @@ camera_node = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="PickupItemType0" parent="." instance=ExtResource("5_l3k1m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.637825, 1.5, -3.54902)
+
+[node name="PickupItemType1" parent="." instance=ExtResource("5_l3k1m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, -4)
+
+[connection signal="body_entered" from="Player" to="Player" method="_on_body_entered"]
