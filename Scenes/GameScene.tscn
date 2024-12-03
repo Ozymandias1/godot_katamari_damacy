@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://bmbgmx6hbddg3"]
+
+[ext_resource type="Texture2D" uid="uid://bxm3eekyltmgc" path="res://addons/kenney_prototype_textures/dark/texture_01.png" id="1_mcfxp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_46rvu"]
+albedo_texture = ExtResource("1_mcfxp")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_tpq4h"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u27n8"]
+albedo_texture = ExtResource("1_mcfxp")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_nptds"]
+size = Vector3(1, 10, 100)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6kb5g"]
+
+[sub_resource type="Sky" id="Sky_15oek"]
+sky_material = SubResource("ProceduralSkyMaterial_6kb5g")
+
+[sub_resource type="Environment" id="Environment_aqqi7"]
+background_mode = 2
+sky = SubResource("Sky_15oek")
+
+[node name="GameScene" type="Node"]
+
+[node name="Environments" type="Node3D" parent="."]
+
+[node name="Ground" type="MeshInstance3D" parent="Environments"]
+material_override = SubResource("StandardMaterial3D_46rvu")
+mesh = SubResource("BoxMesh_tpq4h")
+skeleton = NodePath("../..")
+
+[node name="Wall" type="MeshInstance3D" parent="Environments"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 5, 0)
+material_override = SubResource("StandardMaterial3D_u27n8")
+mesh = SubResource("BoxMesh_nptds")
+skeleton = NodePath("../..")
+
+[node name="Wall2" type="MeshInstance3D" parent="Environments"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 5, 0)
+material_override = SubResource("StandardMaterial3D_u27n8")
+mesh = SubResource("BoxMesh_nptds")
+skeleton = NodePath("../..")
+
+[node name="Wall3" type="MeshInstance3D" parent="Environments"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 5, 50)
+material_override = SubResource("StandardMaterial3D_u27n8")
+mesh = SubResource("BoxMesh_nptds")
+skeleton = NodePath("../..")
+
+[node name="Wall4" type="MeshInstance3D" parent="Environments"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 5, -50)
+material_override = SubResource("StandardMaterial3D_u27n8")
+mesh = SubResource("BoxMesh_nptds")
+skeleton = NodePath("../..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environments"]
+environment = SubResource("Environment_aqqi7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environments"]
+transform = Transform3D(0.610175, -0.518708, 0.598857, 0, 0.755877, 0.654713, -0.792267, -0.399489, 0.461217, 3.55975, 6.85944, 2.33715)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 5)
